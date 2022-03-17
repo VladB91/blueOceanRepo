@@ -56,7 +56,10 @@ pipeline {
         stage('Create file on nodeTwo') {
           steps {
             node(label: 'nodeTwo') {
-              sh '''echo "This is a text created in parallel with nodeTwo. Build URL: ${BUILD_URL}" > TextCreatedWithNodeTwo.log
+              sh '''echo "This is a text created in parallel with nodeTwo. 
+BUILD_URL: ${BUILD_URL}
+JOB_NAME: ${JOB_NAME}
+BUILD_NUMBER: ${BUILD_NUMBER}" > TextCreatedWithNodeTwo.log
 
 '''
             }
@@ -67,7 +70,12 @@ pipeline {
         stage('Create file on nodeOne') {
           steps {
             node(label: 'nodeOne') {
-              writeFile(file: 'TextCreatedWithNodeOne.log', text: '\'This is a text created in parallel with nodeOne. Build Number:\' + %BUILD_URL%')
+              sh '''echo "This is a text created in parallel with nodeOne. 
+BUILD_URL: ${BUILD_URL}
+JOB_NAME: ${JOB_NAME}
+BUILD_NUMBER: ${BUILD_NUMBER}" > TextCreatedWithNodeOne.log
+
+'''
             }
 
           }
