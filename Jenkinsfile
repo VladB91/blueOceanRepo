@@ -74,15 +74,6 @@ pipeline {
       }
     }
 
-    stage('Archive Files on built-in node') {
-      steps {
-        node(label: 'built-in') {
-          archiveArtifacts '*.log'
-        }
-
-      }
-    }
-
     stage('Printing workspace content') {
       steps {
         sh 'sh ls'
