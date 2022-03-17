@@ -76,7 +76,7 @@ pipeline {
 
     stage('Printing workspace content') {
       steps {
-        sh 'sh ls'
+        sh 'ls'
       }
     }
 
