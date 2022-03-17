@@ -74,9 +74,70 @@ pipeline {
       }
     }
 
-    stage('Printing workspace content') {
-      steps {
-        sh 'ls'
+    stage('Archive Logs') {
+      parallel {
+        stage('Archive Logs') {
+          steps {
+            echo 'Archiving logs for nodeOne and nodeTwo'
+          }
+        }
+
+        stage('Archive nodeOne Log') {
+          steps {
+            node(label: 'nodeOne') {
+              archiveArtifacts '**/*.log'
+            }
+
+          }
+        }
+
+        stage('Archive nodeTwo Log') {
+          steps {
+            node(label: 'nodeTwo') {
+              archiveArtifacts '**/*.log'
+            }
+
+          }
+        }
+
+      }
+    }
+
+    stage('Print workspace') {
+      parallel {
+        stage('Print workspace') {
+          steps {
+            echo 'Print workspace for all nodes'
+          }
+        }
+
+        stage('Print built-in ws') {
+          steps {
+            node(label: 'built-in') {
+              sh 'ls'
+            }
+
+          }
+        }
+
+        stage('Print nodeOne ws') {
+          steps {
+            node(label: 'nodeOne') {
+              sh 'ls'
+            }
+
+          }
+        }
+
+        stage('Print nodeTwo ws') {
+          steps {
+            node(label: 'nodeTwo') {
+              sh 'ls'
+            }
+
+          }
+        }
+
       }
     }
 
