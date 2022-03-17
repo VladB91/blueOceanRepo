@@ -65,7 +65,7 @@ pipeline {
         stage('Create file on nodeOne') {
           steps {
             node(label: 'nodeOne') {
-              writeFile(file: 'TextCreatedWithNodeOne.log', text: 'This is a text created in parallel with nodeOne. Build Number: + ${BUILD_URL}')
+              writeFile(file: 'TextCreatedWithNodeOne.log', text: '\'This is a text created in parallel with nodeOne. Build Number:\' + ${BUILD_URL}')
             }
 
           }
