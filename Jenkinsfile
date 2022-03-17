@@ -45,7 +45,7 @@ pipeline {
       }
     }
 
-    stage('Create file on nodeOne') {
+    stage('Create file on each node') {
       parallel {
         stage('Create files on each node') {
           steps {
