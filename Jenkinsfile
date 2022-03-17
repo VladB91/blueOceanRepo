@@ -47,19 +47,25 @@ pipeline {
 
     stage('Create file on nodeOne') {
       parallel {
-        stage('Create file on nodeOne') {
+        stage('Create files on each node') {
           steps {
-            node(label: 'nodeOne') {
-              writeFile(file: 'TextCreatedWithNodeOne.log', text: 'This is a text created in parallel with nodeOne')
-            }
-
+            echo 'Creating files on node One and Two'
           }
         }
 
         stage('Create file on nodeTwo') {
           steps {
             node(label: 'nodeTwo') {
-              writeFile(text: 'This is a text created in parallel with nodeOne', file: 'TextCreatedWithNodeTwo.log')
+              writeFile(text: 'This is a text created in parallel with nodeTwo', file: 'TextCreatedWithNodeTwo.log')
+            }
+
+          }
+        }
+
+        stage('Create file on nodeOne') {
+          steps {
+            node(label: 'nodeOne') {
+              writeFile(file: 'TextCreatedWithNodeOne.log', text: 'This is a text created in parallel with nodeOne')
             }
 
           }
@@ -71,9 +77,15 @@ pipeline {
     stage('Archive Files on built-in node') {
       steps {
         node(label: 'built-in') {
-          archiveArtifacts '**/*.log'
+          archiveArtifacts '*.log'
         }
 
+      }
+    }
+
+    stage('Printing workspace content') {
+      steps {
+        sh 'sh ls'
       }
     }
 
