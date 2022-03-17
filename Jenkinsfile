@@ -111,15 +111,6 @@ pipeline {
           }
         }
 
-        stage('Print built-in ws') {
-          steps {
-            node(label: 'built-in') {
-              sh 'ls'
-            }
-
-          }
-        }
-
         stage('Print nodeOne ws') {
           steps {
             node(label: 'nodeOne') {
@@ -138,6 +129,12 @@ pipeline {
           }
         }
 
+      }
+    }
+
+    stage('Clean workspace') {
+      steps {
+        cleanWs(cleanWhenAborted: true, cleanWhenNotBuilt: true, cleanWhenFailure: true, cleanWhenSuccess: true, cleanWhenUnstable: true, cleanupMatrixParent: true, deleteDirs: true, disableDeferredWipeout: true)
       }
     }
 
