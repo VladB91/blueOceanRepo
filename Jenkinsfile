@@ -56,7 +56,9 @@ pipeline {
         stage('Create file on nodeTwo') {
           steps {
             node(label: 'nodeTwo') {
-              writeFile(text: 'This is a text created in parallel with nodeTwo', file: 'TextCreatedWithNodeTwo.log')
+              sh '''sh \'echo "This is a text created in parallel with nodeTwo. Build URL: ${BUILD_URL}" > TextCreatedWithNodeTwo.log\'
+
+'''
             }
 
           }
