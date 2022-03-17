@@ -15,7 +15,8 @@ pipeline {
         stage('Printing On nodeOne') {
           steps {
             node(label: 'nodeOne') {
-              echo 'echo \'Printing on nodeOne\''
+              sleep 5
+              echo 'Printing on nodeOne'
             }
 
           }
@@ -24,6 +25,7 @@ pipeline {
         stage('Printing On nodeTwo') {
           steps {
             node(label: 'nodeTwo') {
+              sleep 5
               echo 'echo \'Printing on nodeTwo\''
             }
 
@@ -33,6 +35,7 @@ pipeline {
         stage('Printing On built-in node') {
           steps {
             node(label: 'built-in') {
+              sleep 5
               echo 'echo \'Printing on built-in node\''
             }
 
