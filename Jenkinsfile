@@ -45,9 +45,35 @@ pipeline {
       }
     }
 
-    stage('Clean WS') {
+    stage('Create file on nodeOne') {
+      parallel {
+        stage('Create file on nodeOne') {
+          steps {
+            node(label: 'nodeOne') {
+              writeFile(file: 'TextCreatedWithNodeOne.log', text: 'This is a text created in parallel with nodeOne')
+            }
+
+          }
+        }
+
+        stage('Create file on nodeTwo') {
+          steps {
+            node(label: 'nodeTwo') {
+              writeFile(text: 'This is a text created in parallel with nodeOne', file: 'TextCreatedWithNodeTwo.log')
+            }
+
+          }
+        }
+
+      }
+    }
+
+    stage('Archive Files on built-in node') {
       steps {
-        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, cleanupMatrixParent: true, deleteDirs: true, disableDeferredWipeout: true)
+        node(label: 'built-in') {
+          archiveArtifacts '**/*.log'
+        }
+
       }
     }
 
